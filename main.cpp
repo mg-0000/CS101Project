@@ -44,6 +44,8 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets){
         for(unsigned int j=0; j<bubbles.size(); j++){
             //check for collision.
             //4 casses for each axes
+            //still searching for a way to determine accurate collision between rectangle and circle, but for now the below code considers
+            //circle as a square
             if(((bullets[i].get_center_y()<=(bubbles[j].get_center_y()+bubbles[j].get_radius()) && bullets[i].get_center_y()>=(bubbles[j].get_center_y()-bubbles[j].get_radius()))
                 ||
                 (bubbles[j].get_center_y()<=(bullets[i].get_center_y()+(bullets[i].get_height()/2)) && bubbles[j].get_center_y()>=(bullets[i].get_center_y()-(bullets[i].get_height()/2)))
