@@ -19,26 +19,28 @@ private:
     double vx;      // The x-velocity of the shooter
     Color color;    // The color of the shooter
 
+
 public:
+
     Shooter(double position_x, double position_y, double vx_=100, double height=30, double width=18, double head_radius=8, Color color_=COLOR(0, 255, 0))
-    {   
+    {
         // Shooter constructor
         color = color_;
 
         // body (represented by a rectangle)
-        body = Rectangle(position_x, position_y, width, height);                        
+        body = Rectangle(position_x, position_y, width, height);
         body.setColor(color);
         body.setFill(true);
 
         // head (represented by a circle)
-        head = Circle(position_x, position_y - height/2. - head_radius, head_radius);   
+        head = Circle(position_x, position_y - height/2. - head_radius, head_radius);
         head.setColor(color);
         head.setFill(true);
-        
+
         // initial velocity
         vx = vx_;
     }
-    
+
     Bullet shoot()
     {
         // shoot a bullet
@@ -46,7 +48,7 @@ public:
     }
 
     void move(double t, bool is_moving_left)
-    {   
+    {
         // move the shooter
         double vel = vx;
         if (is_moving_left)
@@ -72,12 +74,17 @@ public:
         head.moveTo(new_head_x, head.getY());
     }
 
+    void set_color(Color color_2){
+        body.setColor(color_2);
+        head.setColor(color_2);
+    }
+
     double get_head_center_x()
     {
         // return the x coordinate of the center of the head
         return head.getX();
     }
-    
+
     double get_head_center_y()
     {
         // return the y coordinate of the center of the head
@@ -113,5 +120,5 @@ public:
         // return the height of the body
         return body.getHeight();
     }
-        
+
 };

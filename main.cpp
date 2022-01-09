@@ -44,30 +44,52 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets){
         for(unsigned int j=0; j<bubbles.size(); j++){
             //check for collision.
             //4 casses for each axes
-            //still searching for a way to determine accurate collision between rectangle and circle, but for now the below code considers
-            //circle as a square
             if(((bullets[i].get_center_y()<=(bubbles[j].get_center_y()+bubbles[j].get_radius()) && bullets[i].get_center_y()>=(bubbles[j].get_center_y()-bubbles[j].get_radius()))
                 ||
                 (bubbles[j].get_center_y()<=(bullets[i].get_center_y()+(bullets[i].get_height()/2)) && bubbles[j].get_center_y()>=(bullets[i].get_center_y()-(bullets[i].get_height()/2)))
                 ||
-                (((bullets[i].get_center_y()-bullets[i].get_height()/2)<=(bubbles[j].get_center_y()+bubbles[j].get_radius())) && ((bullets[i].get_center_y()+bullets[i].get_height()/2)>=(bubbles[j].get_center_y()+bubbles[j].get_radius())))
+                (((bullets[i].get_center_y()-bullets[i].get_height()/2)<=(bubbles[j].get_center_y()+bubbles[j].get_radius())) && ((bullets[i].get_center_y()-bullets[i].get_height()/2)>=(bubbles[j].get_center_y()-bubbles[j].get_radius())))
                 ||
-               (((bullets[i].get_center_y()-bullets[i].get_height()/2)<=(bubbles[j].get_center_y()-bubbles[j].get_radius())) && ((bullets[i].get_center_y()+bullets[i].get_height()/2)>=(bubbles[j].get_center_y()-bubbles[j].get_radius())))
+               (((bullets[i].get_center_y()+bullets[i].get_height()/2)<=(bubbles[j].get_center_y()+bubbles[j].get_radius())) && ((bullets[i].get_center_y()+bullets[i].get_height()/2)>=(bubbles[j].get_center_y()-bubbles[j].get_radius())))
                 )
                 &&
                 ((bullets[i].get_center_x()<=(bubbles[j].get_center_x()+bubbles[j].get_radius()) && bullets[i].get_center_x()>=(bubbles[j].get_center_x()-bubbles[j].get_radius()))
                 ||
                 (bubbles[j].get_center_x()<=(bullets[i].get_center_x()+(bullets[i].get_width()/2)) && bubbles[j].get_center_x()>=(bullets[i].get_center_x()-(bullets[i].get_width()/2)))
                 ||
-                (((bullets[i].get_center_x()-bullets[i].get_width()/2)<=(bubbles[j].get_center_x()+bubbles[j].get_radius())) && ((bullets[i].get_center_x()+bullets[i].get_width()/2)>=(bubbles[j].get_center_x()+bubbles[j].get_radius())))
+                (((bullets[i].get_center_x()-bullets[i].get_width()/2)<=(bubbles[j].get_center_x()+bubbles[j].get_radius())) && ((bullets[i].get_center_x()-bullets[i].get_width()/2)>=(bubbles[j].get_center_x()-bubbles[j].get_radius())))
                 ||
-               (((bullets[i].get_center_x()-bullets[i].get_width()/2)<=(bubbles[j].get_center_x()-bubbles[j].get_radius())) && ((bullets[i].get_center_x()+bullets[i].get_width()/2)>=(bubbles[j].get_center_x()-bubbles[j].get_radius())))
+               (((bullets[i].get_center_x()+bullets[i].get_width()/2)<=(bubbles[j].get_center_x()+bubbles[j].get_radius())) && ((bullets[i].get_center_x()+bullets[i].get_width()/2)>=(bubbles[j].get_center_x()-bubbles[j].get_radius())))
                 ))
                 {
                     bullets.erase(bullets.begin()+i);
                     bubbles.erase(bubbles.begin()+j);
                 }
         }
+    }
+}
+
+//check for collision between shooter and bubble
+void check_for_collision_2(Shooter shooter, vector<Bubble> &bubbles){
+    for(unsigned int i=0;i<bubbles.size();i++){
+
+            //check for collision
+            //4 cases for either axes, similar to bullets and bubbles
+            if((((shooter.get_body_center_y()<=(bubbles[i].get_center_y()+bubbles[i].get_radius())) && (shooter.get_body_center_y()>=(bubbles[i].get_center_y()-bubbles[i].get_radius())))
+            || ((bubbles[i].get_center_y()<=(shooter.get_body_center_y()+(shooter.get_body_height()/2))) && bubbles[i].get_center_y()>=(shooter.get_body_center_y()+(shooter.get_body_height()/2)+(2*shooter.get_head_radius())))
+            || ((shooter.get_body_center_y()-(shooter.get_body_height()/2)-(2*shooter.get_head_radius()))<=(bubbles[i].get_center_y()+bubbles[i].get_radius()) && (shooter.get_body_center_y()-(shooter.get_body_height()/2)-(2*shooter.get_head_radius()))>=(bubbles[i].get_center_y()-bubbles[i].get_radius()))
+            || ((shooter.get_body_center_y()+(shooter.get_body_height()/2))<=(bubbles[i].get_center_y()+bubbles[i].get_radius()) && (shooter.get_body_center_y()+(shooter.get_body_height()/2))>=(bubbles[i].get_center_y()-bubbles[i].get_radius()))
+            )
+            &&
+            (((shooter.get_body_center_x()<=(bubbles[i].get_center_x()+bubbles[i].get_radius())) && (shooter.get_body_center_x()>=(bubbles[i].get_center_x()-bubbles[i].get_radius())))
+            || ((bubbles[i].get_center_x()<=(shooter.get_body_center_x()+(shooter.get_body_width()/2))) && bubbles[i].get_center_x()>=(shooter.get_body_center_x()+(shooter.get_body_width()/2)+(2*shooter.get_head_radius())))
+            || ((shooter.get_body_center_x()-(shooter.get_body_width()/2)-(2*shooter.get_head_radius()))<=(bubbles[i].get_center_x()+bubbles[i].get_radius()) && (shooter.get_body_center_x()-(shooter.get_body_width()/2)-(2*shooter.get_head_radius()))>=(bubbles[i].get_center_x()-bubbles[i].get_radius()))
+            || ((shooter.get_body_center_x()+(shooter.get_body_width()/2))<=(bubbles[i].get_center_x()+bubbles[i].get_radius()) && (shooter.get_body_center_x()+(shooter.get_body_width()/2))>=(bubbles[i].get_center_x()-bubbles[i].get_radius()))
+            )
+            ){
+                //code if in collision
+                shooter.set_color(COLOR("black"));
+            }
     }
 }
 
@@ -83,6 +105,7 @@ int main()
 
     // Intialize the shooter
     Shooter shooter(SHOOTER_START_X, SHOOTER_START_Y, SHOOTER_VX);
+
 
     // Initialize the bubbles
     vector<Bubble> bubbles = create_bubbles();
@@ -123,6 +146,12 @@ int main()
         //check for hits
         check_for_collision(bubbles,bullets);
 
+        //CHECK FOR COLLISION BETWEEN SHOOTER AND BUBBLE
+        check_for_collision_2(shooter,bubbles);
+
+
         wait(STEP_TIME);
     }
+
+
 }
