@@ -11,7 +11,6 @@ const int LEFT_MARGIN = 70;
 const int TOP_MARGIN = 20;
 const int BOTTOM_MARGIN = (PLAY_Y_HEIGHT+TOP_MARGIN);
 
-
 void move_bullets(vector<Bullet> &bullets){
     // move all bullets
     for(unsigned int i=0; i<bullets.size(); i++){
@@ -38,60 +37,71 @@ vector<Bubble> create_bubbles()
     return bubbles;
 }
 
-void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets){
+void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Shooter &shooter, Text &score){
     //check for collision between all bubbles and bullets
     for (unsigned int i=0; i<bullets.size(); i++){
         for(unsigned int j=0; j<bubbles.size(); j++){
             //check for collision.
-            //4 casses for each axes
-            if(((bullets[i].get_center_y()<=(bubbles[j].get_center_y()+bubbles[j].get_radius()) && bullets[i].get_center_y()>=(bubbles[j].get_center_y()-bubbles[j].get_radius()))
-                ||
-                (bubbles[j].get_center_y()<=(bullets[i].get_center_y()+(bullets[i].get_height()/2)) && bubbles[j].get_center_y()>=(bullets[i].get_center_y()-(bullets[i].get_height()/2)))
-                ||
-                (((bullets[i].get_center_y()-bullets[i].get_height()/2)<=(bubbles[j].get_center_y()+bubbles[j].get_radius())) && ((bullets[i].get_center_y()-bullets[i].get_height()/2)>=(bubbles[j].get_center_y()-bubbles[j].get_radius())))
-                ||
-               (((bullets[i].get_center_y()+bullets[i].get_height()/2)<=(bubbles[j].get_center_y()+bubbles[j].get_radius())) && ((bullets[i].get_center_y()+bullets[i].get_height()/2)>=(bubbles[j].get_center_y()-bubbles[j].get_radius())))
+            //collision occurs if the x/y distance between the centres of rectangle and circle is lesser than or equal to the sum of half of corresponding width/height and radius
+            if(
+                (
+                    abs(bubbles[j].get_center_x()-bullets[i].get_center_x())<=(bubbles[j].get_radius()+(bullets[i].get_width()/2))  //x axis check
                 )
                 &&
-                ((bullets[i].get_center_x()<=(bubbles[j].get_center_x()+bubbles[j].get_radius()) && bullets[i].get_center_x()>=(bubbles[j].get_center_x()-bubbles[j].get_radius()))
-                ||
-                (bubbles[j].get_center_x()<=(bullets[i].get_center_x()+(bullets[i].get_width()/2)) && bubbles[j].get_center_x()>=(bullets[i].get_center_x()-(bullets[i].get_width()/2)))
-                ||
-                (((bullets[i].get_center_x()-bullets[i].get_width()/2)<=(bubbles[j].get_center_x()+bubbles[j].get_radius())) && ((bullets[i].get_center_x()-bullets[i].get_width()/2)>=(bubbles[j].get_center_x()-bubbles[j].get_radius())))
-                ||
-               (((bullets[i].get_center_x()+bullets[i].get_width()/2)<=(bubbles[j].get_center_x()+bubbles[j].get_radius())) && ((bullets[i].get_center_x()+bullets[i].get_width()/2)>=(bubbles[j].get_center_x()-bubbles[j].get_radius())))
-                ))
+                (
+                    abs(bubbles[j].get_center_y()-bullets[i].get_center_y())<=(bubbles[j].get_radius()+(bullets[i].get_height()/2))   //y axis check
+                )
+            )
                 {
                     bullets.erase(bullets.begin()+i);
                     bubbles.erase(bubbles.begin()+j);
+                    shooter.score++;
+                    score.reset(((WINDOW_X/2)+textWidth("SCORE:")), TOP_MARGIN, shooter.score);
                 }
         }
     }
 }
 
 //check for collision between shooter and bubble
-void check_for_collision_2(Shooter shooter, vector<Bubble> &bubbles){
+void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &lives){
     for(unsigned int i=0;i<bubbles.size();i++){
 
             //check for collision
-            //4 cases for either axes, similar to bullets and bubbles
-            if((((shooter.get_body_center_y()<=(bubbles[i].get_center_y()+bubbles[i].get_radius())) && (shooter.get_body_center_y()>=(bubbles[i].get_center_y()-bubbles[i].get_radius())))
-            || ((bubbles[i].get_center_y()<=(shooter.get_body_center_y()+(shooter.get_body_height()/2))) && bubbles[i].get_center_y()>=(shooter.get_body_center_y()+(shooter.get_body_height()/2)+(2*shooter.get_head_radius())))
-            || ((shooter.get_body_center_y()-(shooter.get_body_height()/2)-(2*shooter.get_head_radius()))<=(bubbles[i].get_center_y()+bubbles[i].get_radius()) && (shooter.get_body_center_y()-(shooter.get_body_height()/2)-(2*shooter.get_head_radius()))>=(bubbles[i].get_center_y()-bubbles[i].get_radius()))
-            || ((shooter.get_body_center_y()+(shooter.get_body_height()/2))<=(bubbles[i].get_center_y()+bubbles[i].get_radius()) && (shooter.get_body_center_y()+(shooter.get_body_height()/2))>=(bubbles[i].get_center_y()-bubbles[i].get_radius()))
+            //collision occurs if the x/y distance between the centres of rectangle and circle is lesser than or equal to the sum of half of corresponding width/height and radius
+            if(
+                (
+                    (abs(bubbles[i].get_center_x()-(shooter.get_body_center_x()))<=(bubbles[i].get_radius()+(shooter.get_body_width()/2)))  //x axis check for shooter bodu
+                &&
+                    (abs(bubbles[i].get_center_y()-shooter.get_body_center_y())<=(bubbles[i].get_radius()+(shooter.get_body_height()/2)))   //y axis check for shooter body
+                )
+                ||
+                (
+                    (abs(bubbles[i].get_center_x()-shooter.get_head_center_x())<=bubbles[i].get_radius()+shooter.get_head_radius()) //x axis check for shooter head
+                &&
+                    (abs(bubbles[i].get_center_y()-shooter.get_head_center_y())<=bubbles[i].get_radius()+shooter.get_head_radius()) //x axis check for shooter body
+                )
             )
-            &&
-            (((shooter.get_body_center_x()<=(bubbles[i].get_center_x()+bubbles[i].get_radius())) && (shooter.get_body_center_x()>=(bubbles[i].get_center_x()-bubbles[i].get_radius())))
-            || ((bubbles[i].get_center_x()<=(shooter.get_body_center_x()+(shooter.get_body_width()/2))) && bubbles[i].get_center_x()>=(shooter.get_body_center_x()+(shooter.get_body_width()/2)+(2*shooter.get_head_radius())))
-            || ((shooter.get_body_center_x()-(shooter.get_body_width()/2)-(2*shooter.get_head_radius()))<=(bubbles[i].get_center_x()+bubbles[i].get_radius()) && (shooter.get_body_center_x()-(shooter.get_body_width()/2)-(2*shooter.get_head_radius()))>=(bubbles[i].get_center_x()-bubbles[i].get_radius()))
-            || ((shooter.get_body_center_x()+(shooter.get_body_width()/2))<=(bubbles[i].get_center_x()+bubbles[i].get_radius()) && (shooter.get_body_center_x()+(shooter.get_body_width()/2))>=(bubbles[i].get_center_x()-bubbles[i].get_radius()))
-            )
-            ){
+            {
                 //code if in collision
-                shooter.set_color(COLOR("black"));
+                if(bubbles[i].in_collision==false)
+                {
+                    bubbles[i].in_collision=true;
+                    shooter.lives_left--;
+                    lives.reset((WINDOW_X-textWidth("   ")),TOP_MARGIN,shooter.lives_left);
+                    shooter.set_color(COLOR("black"));
+                }
+            }
+            else
+            {
+                if(bubbles[i].in_collision==true)
+                {
+                    bubbles[i].in_collision=false;
+                    shooter.set_color(COLOR(0,255,0));
+                }
             }
     }
 }
+
 
 int main()
 {
@@ -111,6 +121,11 @@ int main()
     string msg_time("TIME:");
     Text timer(LEFT_MARGIN, TOP_MARGIN, msg_time);
     Text timer_countdown((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, INITIAL_TIME);
+    string msg_score("SCORE:");
+    Text score_msg((WINDOW_X/2), TOP_MARGIN, msg_score);
+    Text score(((WINDOW_X/2)+textWidth("SCORE:")), TOP_MARGIN, INITIAL_SCORE);
+    Text health((WINDOW_X-textWidth("LIVES LEFT:    ")), TOP_MARGIN, "LIVES LEFT:");
+    Text lives_left((WINDOW_X-textWidth("   ")),TOP_MARGIN,shooter.lives_left);
 
     // Initialize the bubbles
     vector<Bubble> bubbles = create_bubbles();
@@ -158,10 +173,10 @@ int main()
         move_bullets(bullets);
 
         //check for hits
-        check_for_collision(bubbles,bullets);
+        check_for_collision(bubbles,bullets,shooter, score);
 
         //CHECK FOR COLLISION BETWEEN SHOOTER AND BUBBLE
-        check_for_collision_2(shooter,bubbles);
+        check_for_collision_2(shooter,bubbles,lives_left);
 
 
         wait(STEP_TIME);

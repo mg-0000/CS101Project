@@ -7,6 +7,7 @@ const int SHOOTER_START_Y = 425;
 const int SHOOTER_VX = 400;
 const int INITIAL_HEALTH=3;
 const int INITIAL_TIME=30;
+const int INITIAL_SCORE=0;
 
 /* Game Window Vars */
 const int WINDOW_X = 500;
@@ -23,13 +24,14 @@ private:
 
 
 public:
-    int initial_health,time,score=0;
+    int lives_left,initial_health,time,score=0;
     Shooter(double position_x, double position_y,int initial_health_,int initial_time, double vx_=100, double height=30, double width=18, double head_radius=8, Color color_=COLOR(0, 255, 0))
     {
         // Shooter constructor
         color = color_;
         initial_health=initial_health_;
         time=initial_time;
+        lives_left=initial_health;
 
         // body (represented by a rectangle)
         body = Rectangle(position_x, position_y, width, height);

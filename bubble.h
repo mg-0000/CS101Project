@@ -8,7 +8,7 @@ const int BUBBLE_RADIUS_THRESHOLD = 10;
 const int BUBBLE_DEFAULT_VX = 100;
 const int BUBBLE_DEFAULT_VY = 0;
 
-const double BUBBLE_DEFAULT_AY = 20; // gravity
+const double BUBBLE_DEFAULT_AY = 10; // gravity
 
 class Bubble
 {
@@ -19,9 +19,11 @@ private:
     Color color;    // color of the bubble
 
 public:
+    bool in_collision;
     Bubble(double cx, double cy, double r, double vx_=BUBBLE_DEFAULT_VX, double vy_=BUBBLE_DEFAULT_VY, Color color_=COLOR(0, 0, 255),double ay_=BUBBLE_DEFAULT_AY)
     {
         // Bubble constructor
+        in_collision=false;
         color = color_;
         circle = Circle(cx, cy, r);
         circle.setColor(color);
