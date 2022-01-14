@@ -2,13 +2,13 @@
 
 /* Bubble Vars */
 const int BUBBLE_START_X = 250;
-const int BUBBLE_START_Y = 50;
+const int BUBBLE_START_Y = 75;
 const int BUBBLE_DEFAULT_RADIUS = 10;
 const int BUBBLE_RADIUS_THRESHOLD = 10;
 const int BUBBLE_DEFAULT_VX = 100;
 const int BUBBLE_DEFAULT_VY = 0;
 
-const double BUBBLE_DEFAULT_AY = 10; // gravity
+const double BUBBLE_DEFAULT_AY = 20; // gravity
 
 class Bubble
 {
@@ -52,9 +52,9 @@ public:
         }
 
         //bounce along the bottom and top
-        if(vy>0 && new_y>(450-circle.getRadius())
+        if(((vy>0) && (new_y>(450-circle.getRadius())))
             ||
-            (vy<0 && new_y<(0+circle.getRadius())))
+            ((vy<0) && (new_y<(0+circle.getRadius()))))
         {
             vy=-vy;
             new_y=circle.getY()-vy*t;

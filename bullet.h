@@ -19,7 +19,7 @@ public:
     {
         // move the bullet
         double new_y = rect.getY() - vy*t;
-        if(new_y < (0-rect.getHeight()/2.0))   // out of canvas, so delete it
+        if(new_y < ((40)+rect.getHeight()/2.0))   // out of canvas, so delete it
         {
             return false;
         }

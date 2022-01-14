@@ -95,17 +95,22 @@ void check_for_collision_2(Shooter shooter, vector<Bubble> &bubbles){
 
 int main()
 {
+    int temp_timer_var=0;
     initCanvas("Bubble Trouble", WINDOW_X, WINDOW_Y);
 
+    Line t1(0, (2*TOP_MARGIN), WINDOW_X, (2*TOP_MARGIN));
+    t1.setColor(COLOR(0, 0, 255));
     Line b1(0, PLAY_Y_HEIGHT, WINDOW_X, PLAY_Y_HEIGHT);
     b1.setColor(COLOR(0, 0, 255));
 
+    // Intialize the shooter
+    Shooter shooter(SHOOTER_START_X, SHOOTER_START_Y,INITIAL_HEALTH,INITIAL_TIME, SHOOTER_VX);
+
     string msg_cmd("Cmd: _");
     Text charPressed(LEFT_MARGIN, BOTTOM_MARGIN, msg_cmd);
-
-    // Intialize the shooter
-    Shooter shooter(SHOOTER_START_X, SHOOTER_START_Y, SHOOTER_VX);
-
+    string msg_time("TIME:");
+    Text timer(LEFT_MARGIN, TOP_MARGIN, msg_time);
+    Text timer_countdown((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, INITIAL_TIME);
 
     // Initialize the bubbles
     vector<Bubble> bubbles = create_bubbles();
@@ -118,9 +123,18 @@ int main()
     // Main game loop
     while (true)
     {
+        //update the timer
+        temp_timer_var++;
+        if(temp_timer_var==25){
+            temp_timer_var=0;
+            shooter.time--;
+            timer_countdown.reset((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, shooter.time);
+        }
+        
         bool pendingEvent = checkEvent(event);
         if (pendingEvent)
         {
+            
             // Get the key pressed
             char c = charFromEvent(event);
             msg_cmd[msg_cmd.length() - 1] = c;
