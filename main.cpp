@@ -1,6 +1,7 @@
 #include <simplecpp>
 #include "shooter.h"
 #include "bubble.h"
+#include<stdlib.h>
 
 /* Simulation Vars */
 const double STEP_TIME = 0.02;
@@ -54,7 +55,20 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
             )
                 {
                     bullets.erase(bullets.begin()+i);
-                    bubbles.erase(bubbles.begin()+j);
+                    if(bubbles[i].get_radius()<=BUBBLE_RADIUS_THRESHOLD)
+                    {
+                        bubbles.erase(bubbles.begin()+j);
+                    }
+                    else
+                    {
+                        double cx=bubbles[j].get_center_x();
+                        double cy=bubbles[j].get_center_y();
+                        double rad=bubbles[j].get_radius()/2;
+                        bubbles.erase(bubbles.begin()+j);
+                        bubbles.push_back(Bubble(cx,cy,rad,BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
+                        bubbles.push_back(Bubble(cx,cy,rad,-BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
+                    }
+                    
                     shooter.score++;
                     score.reset(((WINDOW_X/2)+textWidth("SCORE:")), TOP_MARGIN, shooter.score);
                 }
@@ -178,6 +192,26 @@ int main()
         //CHECK FOR COLLISION BETWEEN SHOOTER AND BUBBLE
         check_for_collision_2(shooter,bubbles,lives_left);
 
+        //check whether game is over
+        if((shooter.time==0)    ||  (shooter.lives_left==0))
+        {
+            Text lose_msg(WINDOW_X/2,WINDOW_Y/2,"YOU LOSE.");
+            lose_msg.scale(2);
+            lose_msg.setColor(COLOR("red"));
+            lose_msg.setFill(true);
+            wait(2);
+            closeCanvas();
+            exit(0);
+        }
+        else if(bubbles.size()==0){
+            Text win_msg(WINDOW_X/2,WINDOW_Y/2,"YOU WIN!!");
+            win_msg.scale(2);
+            win_msg.setColor(COLOR("green"));
+            win_msg.setFill(true);
+            wait(2);
+            closeCanvas();
+            exit(0);
+        }
 
         wait(STEP_TIME);
     }
