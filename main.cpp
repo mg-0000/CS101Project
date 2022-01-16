@@ -1,7 +1,6 @@
 #include <simplecpp>
 #include "shooter.h"
 #include "bubble.h"
-#include<stdlib.h>
 
 /* Simulation Vars */
 const double STEP_TIME = 0.02;
@@ -55,20 +54,22 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
             )
                 {
                     bullets.erase(bullets.begin()+i);
-                    if(bubbles[i].get_radius()<=BUBBLE_RADIUS_THRESHOLD)
+                    if(bubbles[j].get_radius()<=BUBBLE_RADIUS_THRESHOLD)
                     {
                         bubbles.erase(bubbles.begin()+j);
+                        cout<<endl<<endl<<endl<<bubbles[j].get_radius()<<endl<<endl<<endl;
                     }
                     else
                     {
                         double cx=bubbles[j].get_center_x();
                         double cy=bubbles[j].get_center_y();
-                        double rad=bubbles[j].get_radius()/2;
+                        int rad=bubbles[j].get_radius()/2;
+                        cout<<endl<<endl<<bubbles[j].get_radius()<<endl<<endl;
                         bubbles.erase(bubbles.begin()+j);
                         bubbles.push_back(Bubble(cx,cy,rad,BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
                         bubbles.push_back(Bubble(cx,cy,rad,-BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
                     }
-                    
+
                     shooter.score++;
                     score.reset(((WINDOW_X/2)+textWidth("SCORE:")), TOP_MARGIN, shooter.score);
                 }
@@ -159,11 +160,11 @@ int main()
             shooter.time--;
             timer_countdown.reset((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, shooter.time);
         }
-        
+
         bool pendingEvent = checkEvent(event);
         if (pendingEvent)
         {
-            
+
             // Get the key pressed
             char c = charFromEvent(event);
             msg_cmd[msg_cmd.length() - 1] = c;
@@ -180,6 +181,8 @@ int main()
                 return 0;
         }
 
+        beginFrame();
+
         // Update the bubbles
         move_bubbles(bubbles);
 
@@ -192,6 +195,13 @@ int main()
         //CHECK FOR COLLISION BETWEEN SHOOTER AND BUBBLE
         check_for_collision_2(shooter,bubbles,lives_left);
 
+        endFrame();
+        cout<<bubbles.size()<<endl;
+        for(unsigned int i=0;i<bubbles.size();i++){
+            cout<<bubbles[i].get_radius()<<" ";
+        }
+        cout<<endl;
+
         //check whether game is over
         if((shooter.time==0)    ||  (shooter.lives_left==0))
         {
@@ -200,8 +210,7 @@ int main()
             lose_msg.setColor(COLOR("red"));
             lose_msg.setFill(true);
             wait(2);
-            closeCanvas();
-            exit(0);
+            return 0;
         }
         else if(bubbles.size()==0){
             Text win_msg(WINDOW_X/2,WINDOW_Y/2,"YOU WIN!!");
@@ -209,9 +218,10 @@ int main()
             win_msg.setColor(COLOR("green"));
             win_msg.setFill(true);
             wait(2);
-            closeCanvas();
-            exit(0);
+            return 0;
+            break;
         }
+        
 
         wait(STEP_TIME);
     }
