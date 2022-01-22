@@ -8,7 +8,7 @@ const int SHOOTER_VX = 400;
 const int INITIAL_HEALTH=3;
 const int INITIAL_TIME=30;
 const int INITIAL_SCORE=0;
-const Color SHOOTER_DEFAULT_COLOR=COLOR(255, 167, 38);
+const Color SHOOTER_DEFAULT_COLOR=COLOR(255, 209, 71);
 
 /* Game Window Vars */
 const int WINDOW_X = 500;
