@@ -11,6 +11,42 @@ const int LEFT_MARGIN = 70;
 const int TOP_MARGIN = 20;
 const int BOTTOM_MARGIN = (PLAY_Y_HEIGHT+TOP_MARGIN);
 
+//set the background
+void set_background(Color main_color, Color arrow_color){
+    Rectangle r1(0,0,20,20);
+    r1.setColor(main_color);
+    r1.setFill(true);
+    int upper_bound=40;
+    int lower_bound=460;
+    int arrow_up=40;
+    int arrow_down=180;
+    int arrow_left=240-(arrow_down-arrow_up);
+    int arrow_right=240+(arrow_down-arrow_up);
+
+    int x1=0,y=upper_bound;
+    while(x1<=500){
+        while(y<=lower_bound){
+            if(x1>=arrow_left && x1<=arrow_right)
+            {
+                if(y>=(arrow_up+abs(x1-240)) && y<=arrow_down)   r1.setColor(arrow_color);
+                else if((x1-240==0) && y>=arrow_up)    r1.setColor(arrow_color);
+                else    r1.setColor(main_color);
+            }
+            
+
+            r1.moveTo((x1),(y));
+            r1.imprint();
+            y+=20;
+        }
+        y=upper_bound;
+        x1+=20;
+
+        r1.moveTo((x1),(y));
+        r1.imprint();
+    }
+    wait(1);
+}
+
 void move_bullets(vector<Bullet> &bullets){
     // move all bullets
     for(unsigned int i=0; i<bullets.size(); i++){
@@ -57,14 +93,12 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
                     if(bubbles[j].get_radius()<=BUBBLE_RADIUS_THRESHOLD)
                     {
                         bubbles.erase(bubbles.begin()+j);
-                        cout<<endl<<endl<<endl<<bubbles[j].get_radius()<<endl<<endl<<endl;
                     }
                     else
                     {
                         double cx=bubbles[j].get_center_x();
                         double cy=bubbles[j].get_center_y();
                         int rad=bubbles[j].get_radius()/2;
-                        cout<<endl<<endl<<bubbles[j].get_radius()<<endl<<endl;
                         bubbles.erase(bubbles.begin()+j);
                         bubbles.push_back(Bubble(cx,cy,rad,BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
                         bubbles.push_back(Bubble(cx,cy,rad,-BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
@@ -113,6 +147,7 @@ void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &live
                     bubbles[i].in_collision=false;
                     shooter.set_color(COLOR(0,255,0));
                 }
+                
             }
     }
 }
@@ -120,8 +155,13 @@ void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &live
 
 int main()
 {
-    int temp_timer_var=0;
+    int temp_timer_var=0;   //timer variable for updating the timer
+
     initCanvas("Bubble Trouble", WINDOW_X, WINDOW_Y);
+    //possible colours:
+    //main: (80,130,240)|(94,63,226)
+    //arrow: (255,167,38)|(254,209,71)
+    set_background(COLOR(94,63,226), COLOR(244,67,54));   //set the background
 
     Line t1(0, (2*TOP_MARGIN), WINDOW_X, (2*TOP_MARGIN));
     t1.setColor(COLOR(0, 0, 255));
@@ -154,6 +194,8 @@ int main()
     while (true)
     {
         //update the timer
+        //one sec passes after 30 repetations based on step time=0.02. However, some time is taken for computations too.
+        //25 repetations has been arrived by trial and error and is not accurate.
         temp_timer_var++;
         if(temp_timer_var==25){
             temp_timer_var=0;
@@ -181,8 +223,6 @@ int main()
                 return 0;
         }
 
-        beginFrame();
-
         // Update the bubbles
         move_bubbles(bubbles);
 
@@ -195,12 +235,7 @@ int main()
         //CHECK FOR COLLISION BETWEEN SHOOTER AND BUBBLE
         check_for_collision_2(shooter,bubbles,lives_left);
 
-        endFrame();
-        cout<<bubbles.size()<<endl;
-        for(unsigned int i=0;i<bubbles.size();i++){
-            cout<<bubbles[i].get_radius()<<" ";
-        }
-        cout<<endl;
+        
 
         //check whether game is over
         if((shooter.time==0)    ||  (shooter.lives_left==0))
