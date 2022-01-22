@@ -8,6 +8,7 @@ const int SHOOTER_VX = 400;
 const int INITIAL_HEALTH=3;
 const int INITIAL_TIME=30;
 const int INITIAL_SCORE=0;
+const Color SHOOTER_DEFAULT_COLOR=COLOR(255, 167, 38);
 
 /* Game Window Vars */
 const int WINDOW_X = 500;
@@ -25,7 +26,7 @@ private:
 
 public:
     int lives_left,initial_health,time,score=0;
-    Shooter(double position_x, double position_y,int initial_health_,int initial_time, double vx_=100, double height=30, double width=18, double head_radius=8, Color color_=COLOR(0, 255, 0))
+    Shooter(double position_x, double position_y,int initial_health_,int initial_time, double vx_=100, double height=30, double width=18, double head_radius=8, Color color_=SHOOTER_DEFAULT_COLOR)
     {
         // Shooter constructor
         color = color_;
@@ -80,9 +81,17 @@ public:
         head.moveTo(new_head_x, head.getY());
     }
 
+    //change the color of the shooter
     void set_color(Color color_2){
         body.setColor(color_2);
         head.setColor(color_2);
+        color=color_2;
+    }
+
+    //get the color of the shooter. To prevent shooter color being stuck to black on destruction of bubble immediately following collision
+    Color get_color()
+    {
+        return color;
     }
 
     double get_head_center_x()

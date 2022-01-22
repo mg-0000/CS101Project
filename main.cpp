@@ -12,38 +12,24 @@ const int TOP_MARGIN = 20;
 const int BOTTOM_MARGIN = (PLAY_Y_HEIGHT+TOP_MARGIN);
 
 //set the background
-void set_background(Color main_color, Color arrow_color){
-    Rectangle r1(0,0,20,20);
-    r1.setColor(main_color);
+//main_color is red, blue or green
+void set_background(char main_color){
+    int upper_bound=40; //upper border
+    int lower_bound=PLAY_Y_HEIGHT;    //lower border
+    
+    Rectangle r1(0,upper_bound+2,1000,2);   //rectangle which covers two entire rows of pixels
     r1.setFill(true);
-    int upper_bound=40;
-    int lower_bound=460;
-    int arrow_up=40;
-    int arrow_down=180;
-    int arrow_left=240-(arrow_down-arrow_up);
-    int arrow_right=240+(arrow_down-arrow_up);
-
-    int x1=0,y=upper_bound;
-    while(x1<=500){
-        while(y<=lower_bound){
-            if(x1>=arrow_left && x1<=arrow_right)
-            {
-                if(y>=(arrow_up+abs(x1-240)) && y<=arrow_down)   r1.setColor(arrow_color);
-                else if((x1-240==0) && y>=arrow_up)    r1.setColor(arrow_color);
-                else    r1.setColor(main_color);
-            }
-            
-
-            r1.moveTo((x1),(y));
-            r1.imprint();
-            y+=20;
-        }
-        y=upper_bound;
-        x1+=20;
-
-        r1.moveTo((x1),(y));
+    
+    //iterate through each row in the canvas, coloring it.
+    while(r1.getY()>=(upper_bound+2) && r1.getY()<=lower_bound)
+    {
+        if(main_color=='b')     r1.setColor(COLOR(80,130,((r1.getY()/2))));
+        else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),50,100));
+        else if(main_color=='g')    r1.setColor(COLOR(50,((r1.getY()/2)),100));
         r1.imprint();
+        r1.move(0,2);
     }
+    
     wait(1);
 }
 
@@ -68,8 +54,8 @@ vector<Bubble> create_bubbles()
 {
     // create initial bubbles in the game
     vector<Bubble> bubbles;
-    bubbles.push_back(Bubble(WINDOW_X/2.0, BUBBLE_START_Y, BUBBLE_DEFAULT_RADIUS, -BUBBLE_DEFAULT_VX, 0, COLOR(255,105,180),BUBBLE_DEFAULT_AY));
-    bubbles.push_back(Bubble(WINDOW_X/4.0, BUBBLE_START_Y, BUBBLE_DEFAULT_RADIUS, BUBBLE_DEFAULT_VX, 0, COLOR(255,105,180),BUBBLE_DEFAULT_AY));
+    bubbles.push_back(Bubble(WINDOW_X/2.0, BUBBLE_START_Y, BUBBLE_DEFAULT_RADIUS, -BUBBLE_DEFAULT_VX, 0, BUBBLE_DEFAULT_COLOR,BUBBLE_DEFAULT_AY));
+    bubbles.push_back(Bubble(WINDOW_X/4.0, BUBBLE_START_Y, BUBBLE_DEFAULT_RADIUS, BUBBLE_DEFAULT_VX, 0, BUBBLE_DEFAULT_COLOR,BUBBLE_DEFAULT_AY));
     return bubbles;
 }
 
@@ -100,8 +86,8 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
                         double cy=bubbles[j].get_center_y();
                         int rad=bubbles[j].get_radius()/2;
                         bubbles.erase(bubbles.begin()+j);
-                        bubbles.push_back(Bubble(cx,cy,rad,BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
-                        bubbles.push_back(Bubble(cx,cy,rad,-BUBBLE_DEFAULT_VX,0,COLOR(255,105,180),BUBBLE_DEFAULT_AY));
+                        bubbles.push_back(Bubble(cx,cy,rad,BUBBLE_DEFAULT_VX,0,BUBBLE_DEFAULT_COLOR,BUBBLE_DEFAULT_AY));
+                        bubbles.push_back(Bubble(cx,cy,rad,-BUBBLE_DEFAULT_VX,0,BUBBLE_DEFAULT_COLOR,BUBBLE_DEFAULT_AY));
                     }
 
                     shooter.score++;
@@ -145,7 +131,10 @@ void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &live
                 if(bubbles[i].in_collision==true)
                 {
                     bubbles[i].in_collision=false;
-                    shooter.set_color(COLOR(0,255,0));
+                }
+                if(shooter.get_color()==COLOR("black"))
+                {
+                    shooter.set_color(SHOOTER_DEFAULT_COLOR);
                 }
                 
             }
@@ -158,10 +147,9 @@ int main()
     int temp_timer_var=0;   //timer variable for updating the timer
 
     initCanvas("Bubble Trouble", WINDOW_X, WINDOW_Y);
-    //possible colours:
-    //main: (80,130,240)|(94,63,226)
-    //arrow: (255,167,38)|(254,209,71)
-    set_background(COLOR(94,63,226), COLOR(244,67,54));   //set the background
+    //set the background as a color palette.
+    //possible arguments are 'r'-red 'b'-blue 'g'-green
+    set_background('b');   
 
     Line t1(0, (2*TOP_MARGIN), WINDOW_X, (2*TOP_MARGIN));
     t1.setColor(COLOR(0, 0, 255));

@@ -7,6 +7,7 @@ const int BUBBLE_DEFAULT_RADIUS = 10;
 const int BUBBLE_RADIUS_THRESHOLD = 5;
 const int BUBBLE_DEFAULT_VX = 100;
 const int BUBBLE_DEFAULT_VY = 0;
+const Color BUBBLE_DEFAULT_COLOR=COLOR(29,201,153);
 
 const double BUBBLE_DEFAULT_AY = 100; // gravity
 
@@ -20,7 +21,7 @@ private:
 
 public:
     bool in_collision;
-    Bubble(double cx, double cy, int r, double vx_=BUBBLE_DEFAULT_VX, double vy_=BUBBLE_DEFAULT_VY, Color color_=COLOR(0, 0, 255),double ay_=BUBBLE_DEFAULT_AY)
+    Bubble(double cx, double cy, int r, double vx_=BUBBLE_DEFAULT_VX, double vy_=BUBBLE_DEFAULT_VY, Color color_=BUBBLE_DEFAULT_COLOR,double ay_=BUBBLE_DEFAULT_AY)
     {
         // Bubble constructor
         in_collision=false;
