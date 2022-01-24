@@ -37,7 +37,7 @@ void set_background(char main_color){
     //iterate through each row in the canvas, coloring it.
     while(r1.getY()>=(upper_bound+2) && r1.getY()<=lower_bound)
     {
-        if(main_color=='b')     r1.setColor(COLOR(0,0,((r1.getY()/2))));
+        if(main_color=='b')     r1.setColor(COLOR(0,0,(r1.getY()/2)));
         else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),0,0));
         else if(main_color=='g')    r1.setColor(COLOR(0,((r1.getY()/2)),0));
         r1.imprint();
