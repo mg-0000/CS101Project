@@ -1,7 +1,7 @@
 #include<simplecpp>
 #include"game.h"
 
-//color combinations:
+//color combinations of bubble and background:
 //b+(150,150,175)
 //r+(55,126,176)
 //g+(122,103,129)

@@ -214,10 +214,12 @@ public:
         no_of_bubbles=no_of_bubbles_;
         initial_lives=initial_lives_;
         game_time=game_time_;
-        color_of_bubble=color_combo_.bubble_color;
+       
         vx_of_bubble=vx_of_bubble_;
         ay_of_bubble=ay_of_bubble_;
         bubble_radius=bubble_rad_;
+        //colors
+        color_of_bubble=color_combo_.bubble_color;
         main_background_color=color_combo_.background_char;
         background_c1=color_combo_.background_c1;
         background_c2=color_combo_.background_c2;
