@@ -14,6 +14,13 @@ const int LEFT_MARGIN = 70;
 const int TOP_MARGIN = 20;
 const int BOTTOM_MARGIN = (PLAY_Y_HEIGHT+TOP_MARGIN);
 
+//for color combination of bubbles and background
+struct color_combo{
+    Color bubble_color;
+    char background_char;
+    int background_c1,background_c2;
+};
+
 //simple pow function to prevent problems with double to int conversion
 int simple_pow(int a,int b)
 {
@@ -27,7 +34,7 @@ int simple_pow(int a,int b)
 
 //set the background
 //main_color is red, blue or green
-void set_background(char main_color){
+void set_background(char main_color,int c1,int c2){
     int upper_bound=40; //upper border
     int lower_bound=PLAY_Y_HEIGHT;    //lower border
     
@@ -37,14 +44,13 @@ void set_background(char main_color){
     //iterate through each row in the canvas, coloring it.
     while(r1.getY()>=(upper_bound+2) && r1.getY()<=lower_bound)
     {
-        if(main_color=='b')     r1.setColor(COLOR(0,0,(r1.getY()/2)));
-        else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),0,0));
-        else if(main_color=='g')    r1.setColor(COLOR(0,((r1.getY()/2)),0));
+        if(main_color=='b')     r1.setColor(COLOR(c1,c2,(r1.getY()/2)));
+        else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),c1,c2));
+        else if(main_color=='g')    r1.setColor(COLOR(c1,((r1.getY()/2)),c2));
         r1.imprint();
         r1.move(0,2);
     }
     
-    wait(1);
 }
 
 void move_bullets(vector<Bullet> &bullets){
@@ -170,8 +176,11 @@ private:
     double vx_of_bubble;    //for bubble constructor
     double ay_of_bubble;    //for bubble constructor
     double bubble_radius;   //for bubble constructor
-    char main_background_color; //background color
     int temp_timer_var=0;       //for updating the timer
+
+    //background color vars
+    char main_background_color;
+    int background_c1,background_c2;
 
     //information displayed on screen
     string msg_cmd;
@@ -200,20 +209,22 @@ private:
 
 public:
     //game cinstructor
-    Game(char level_,int no_of_bubbles_=2,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30, Color color_of_bubble_=BULLET_DEFAULT_COLOR,char main_background_color_='b', double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
+    Game(struct color_combo color_combo_,char level_,int no_of_bubbles_=2,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30,  double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
     {
         no_of_bubbles=no_of_bubbles_;
         initial_lives=initial_lives_;
         game_time=game_time_;
-        color_of_bubble=color_of_bubble_;
+        color_of_bubble=color_combo_.bubble_color;
         vx_of_bubble=vx_of_bubble_;
         ay_of_bubble=ay_of_bubble_;
         bubble_radius=bubble_rad_;
-        main_background_color=main_background_color_;
+        main_background_color=color_combo_.background_char;
+        background_c1=color_combo_.background_c1;
+        background_c2=color_combo_.background_c2;
 
         //set the background as a color palette.
         //possible arguments are 'r'-red 'b'-blue 'g'-green
-        set_background(main_background_color);
+        set_background(main_background_color,background_c1,background_c2);
 
         // Intialize the shooter
         shooter=Shooter(SHOOTER_START_X, SHOOTER_START_Y,initial_lives,game_time);
