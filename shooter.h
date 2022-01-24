@@ -26,7 +26,7 @@ private:
 
 public:
     int lives_left,initial_health,time,score=0;
-    Shooter(double position_x, double position_y,int initial_health_,int initial_time, double vx_=100, double height=30, double width=18, double head_radius=8, Color color_=SHOOTER_DEFAULT_COLOR)
+    Shooter(double position_x=SHOOTER_START_X, double position_y=SHOOTER_START_Y,int initial_health_=INITIAL_HEALTH,int initial_time=INITIAL_TIME, double vx_=SHOOTER_VX, double height=30, double width=18, double head_radius=8, Color color_=SHOOTER_DEFAULT_COLOR)
     {
         // Shooter constructor
         color = color_;
