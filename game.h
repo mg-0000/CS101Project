@@ -37,9 +37,9 @@ void set_background(char main_color){
     //iterate through each row in the canvas, coloring it.
     while(r1.getY()>=(upper_bound+2) && r1.getY()<=lower_bound)
     {
-        if(main_color=='b')     r1.setColor(COLOR(80,130,((r1.getY()/2))));
-        else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),67,54));
-        else if(main_color=='g')    r1.setColor(COLOR(29,((r1.getY()/2)),153));
+        if(main_color=='b')     r1.setColor(COLOR(0,0,((r1.getY()/2))));
+        else if(main_color=='r')    r1.setColor(COLOR(((r1.getY()/2)),0,0));
+        else if(main_color=='g')    r1.setColor(COLOR(0,((r1.getY()/2)),0));
         r1.imprint();
         r1.move(0,2);
     }
@@ -116,7 +116,7 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
 
 //check for collision between shooter and bubble
 void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &lives){
-    bool check_whether_to_change_color=true;
+    bool check_whether_to_change_color=true;    //to determine when to change shooter color back to default
     for(unsigned int i=0;i<bubbles.size();i++){
 
             //check for collision
@@ -153,6 +153,7 @@ void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &live
             }
             if(bubbles[i].in_collision==true)   check_whether_to_change_color=false;
     }
+    //change color if all bubbles are not in_collision and shooter current color is black
     if((check_whether_to_change_color==true) and (shooter.get_color()==COLOR("black")))  shooter.set_color(SHOOTER_DEFAULT_COLOR);
 
 }
@@ -183,6 +184,8 @@ private:
     Text score;
     Text health;
     Text lives_left;
+    Text level_msg;
+    Text level;
 
     //shooter
     Shooter shooter;
@@ -197,7 +200,7 @@ private:
 
 public:
     //game cinstructor
-    Game(int no_of_bubbles_=2,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30, Color color_of_bubble_=BULLET_DEFAULT_COLOR,char main_background_color_='b', double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
+    Game(char level_,int no_of_bubbles_=2,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30, Color color_of_bubble_=BULLET_DEFAULT_COLOR,char main_background_color_='b', double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
     {
         no_of_bubbles=no_of_bubbles_;
         initial_lives=initial_lives_;
@@ -221,6 +224,8 @@ public:
         //initialise the information to be displayed in the screen
         msg_cmd="Cmd: _";
         charPressed=Text(LEFT_MARGIN, BOTTOM_MARGIN, msg_cmd);
+        level_msg=Text(WINDOW_X/2,BOTTOM_MARGIN,"LEVEL:");
+        level=Text((WINDOW_X/2)+textWidth("LEVEL:"),BOTTOM_MARGIN,level_);
         msg_time="TIME:";
         timer=Text(LEFT_MARGIN, TOP_MARGIN, msg_time);
         msg_score="SCORE:";
@@ -236,7 +241,6 @@ public:
 
     //destructor
     ~Game(){
-        cout<<"Level is closed."<<endl;
     }
 
     //main game loop

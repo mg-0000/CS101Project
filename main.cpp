@@ -11,36 +11,60 @@ int main(){
 
     int level1_result=-1,level2_result=-1,level3_result=-1;
 
-    cout<<"begin"<<endl;
-    Game level1(2,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'g',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
-    cout<<"level 1"<<endl;
+    Game level1(1,2,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'g',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
     level1_result=level1.main_game_loop();
     level1.~Game();
     if(level1_result==0)
     {
-        cout<<"Game over";
+        Text msg(WINDOW_X/2,WINDOW_Y/2,"GAME OVER!!");
+        msg.scale(2);
+        msg.setColor(COLOR("red"));
+        msg.setFill(true);
+        wait(2);
         return 0;
     }
     else{
-        cout<<"level 2"<<endl;
-        Game level2(3,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'b',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
+        Text msg(WINDOW_X/2,WINDOW_Y/2,"LEVEL 2");
+        msg.scale(2);
+        msg.setColor(COLOR("green"));
+        msg.setFill(true);
+        wait(2);
+        msg.hide();
+        Game level2(2,3,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'b',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
         level2_result=level2.main_game_loop();
         level2.~Game();
         if(level2_result==0){
-            cout<<"game over"<<endl;
+            Text msg(WINDOW_X/2,WINDOW_Y/2,"GAME OVER!!");
+            msg.scale(2);
+            msg.setColor(COLOR("red"));
+            msg.setFill(true);
+            wait(2);
             return 0;
         }    
         else{
-            cout<<"level 3"<<endl;
-            Game level3(4,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'r',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
+            Text msg(WINDOW_X/2,WINDOW_Y/2,"LEVEL 3");
+            msg.scale(2);
+            msg.setColor(COLOR("green"));
+            msg.setFill(true);
+            wait(2);
+            msg.hide();
+            Game level3(3,4,BUBBLE_DEFAULT_RADIUS,3,30,COLOR(56,36,36),'r',BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
             level3_result=level3.main_game_loop();
             level3.~Game();
-            if(level3_result==0){
-                cout<<"You won!!";
+            if(level3_result==1){
+                Text msg(WINDOW_X/2,WINDOW_Y/2,"GAME OVER");
+                msg.scale(2);
+                msg.setColor(COLOR("green"));
+                msg.setFill(true);
+                wait(2);
                 return 0;
             }
             else{
-                cout<<"You lost!!";
+                Text msg(WINDOW_X/2,WINDOW_Y/2,"GAME OVER");
+                msg.scale(2);
+                msg.setColor(COLOR("red"));
+                msg.setFill(true);
+                wait(2);
                 return 0;
             }
         }
