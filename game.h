@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include "shooter.h"
 #include"bubble.h"
+//includeing bullet.h here isnt required as it is already included in shooter.h
 
 
 /* Simulation Vars */
@@ -319,7 +320,7 @@ public:
             else if(bubbles.size()==0){
                 Text msg(WINDOW_X/2,WINDOW_Y/2,"YOU WIN!!");
                 msg.scale(2);
-                msg.setColor(COLOR("green"));
+                msg.setColor(COLOR("blue"));
                 msg.setFill(true);
                 wait(2);
                 return 1;
