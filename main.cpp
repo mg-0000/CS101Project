@@ -21,7 +21,7 @@ int main(){
 
     int level1_result=-1,level2_result=-1,level3_result=-1;
 
-    Game level1(color4,1,2,BUBBLE_DEFAULT_RADIUS,3,30,BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
+    Game level1(color4,1,BUBBLE_DEFAULT_NO,BUBBLE_DEFAULT_RADIUS,INITIAL_HEALTH,INITIAL_TIME,BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
     level1_result=level1.main_game_loop();
     level1.~Game();
     if(level1_result==0)
@@ -40,7 +40,7 @@ int main(){
         msg.setFill(true);
         wait(2);
         msg.hide();
-        Game level2(color5,2,3,BUBBLE_DEFAULT_RADIUS,3,30,BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
+        Game level2(color5,2,BUBBLE_DEFAULT_NO+1,BUBBLE_DEFAULT_RADIUS+5,INITIAL_HEALTH+1,INITIAL_TIME+10,BUBBLE_DEFAULT_VX+25,BUBBLE_DEFAULT_AY+30);
         level2_result=level2.main_game_loop();
         level2.~Game();
         if(level2_result==0){
@@ -58,7 +58,7 @@ int main(){
             msg.setFill(true);
             wait(2);
             msg.hide();
-            Game level3(color6,3,4,BUBBLE_DEFAULT_RADIUS,3,30,BUBBLE_DEFAULT_VX,BUBBLE_DEFAULT_AY);
+            Game level3(color6,3,BUBBLE_DEFAULT_NO+2,BUBBLE_DEFAULT_RADIUS+10,INITIAL_HEALTH+2,INITIAL_TIME+20,BUBBLE_DEFAULT_VX+50,BUBBLE_DEFAULT_AY+60);
             level3_result=level3.main_game_loop();
             level3.~Game();
             if(level3_result==1){

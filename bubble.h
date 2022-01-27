@@ -8,6 +8,7 @@ const int BUBBLE_RADIUS_THRESHOLD = 10;
 const int BUBBLE_DEFAULT_VX = 100;
 const int BUBBLE_DEFAULT_VY = 0;
 const Color BUBBLE_DEFAULT_COLOR=COLOR(29,201,153);
+const int BUBBLE_DEFAULT_NO=2;
 
 const double BUBBLE_DEFAULT_AY = 20; // gravity
 

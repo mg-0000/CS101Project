@@ -2,7 +2,6 @@
 #include<stdlib.h>
 #include "shooter.h"
 #include"bubble.h"
-#include "bullet.h"
 
 
 /* Simulation Vars */
@@ -209,7 +208,7 @@ private:
 
 public:
     //game cinstructor
-    Game(struct color_combo color_combo_,char level_,int no_of_bubbles_=2,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30,  double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
+    Game(struct color_combo color_combo_,char level_,int no_of_bubbles_=BUBBLE_DEFAULT_NO,double bubble_rad_=BUBBLE_DEFAULT_RADIUS,int initial_lives_=3, int game_time_=30,  double vx_of_bubble_=BUBBLE_DEFAULT_VX, double ay_of_bubble_=BUBBLE_DEFAULT_AY)
     {
         no_of_bubbles=no_of_bubbles_;
         initial_lives=initial_lives_;
