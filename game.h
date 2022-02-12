@@ -243,7 +243,7 @@ public:
         timer=Text(LEFT_MARGIN, TOP_MARGIN, msg_time);
         msg_score="SCORE:";
         score_msg=Text((WINDOW_X/2), TOP_MARGIN, msg_score);
-        timer_countdown=Text((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, INITIAL_TIME);
+        timer_countdown=Text((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, game_time);
         score=Text(((WINDOW_X/2)+textWidth("SCORE:")), TOP_MARGIN, INITIAL_SCORE);
         health=Text((WINDOW_X-textWidth("LIVES LEFT:    ")), TOP_MARGIN, "LIVES LEFT:");
         lives_left=Text((WINDOW_X-textWidth("   ")),TOP_MARGIN,shooter.lives_left);
@@ -267,7 +267,7 @@ public:
             //one sec passes after 30 repetations based on step time=0.02. However, some time is taken for computations too.
             //25 repetations has been arrived by trial and error and is not accurate.
             temp_timer_var++;
-            if(temp_timer_var==25){
+            if(temp_timer_var==23){
                 temp_timer_var=0;
                 shooter.time--;
                 timer_countdown.reset((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, shooter.time);
