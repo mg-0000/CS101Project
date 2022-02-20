@@ -99,11 +99,11 @@ void check_for_collision(vector<Bubble> &bubbles , vector<Bullet> &bullets , Sho
             )
                 {
                     bullets.erase(bullets.begin()+i);
-                    if(bubbles[j].get_radius()<=BUBBLE_RADIUS_THRESHOLD)
+                    if(bubbles[j].get_radius()<=BUBBLE_RADIUS_THRESHOLD)    //delete bublle is radius is small
                     {
                         bubbles.erase(bubbles.begin()+j);
                     }
-                    else
+                    else    //split bubbles
                     {
                         double cx=bubbles[j].get_center_x();
                         double cy=bubbles[j].get_center_y();
@@ -224,8 +224,7 @@ public:
         background_c1=color_combo_.background_c1;
         background_c2=color_combo_.background_c2;
 
-        //set the background as a color palette.
-        //possible arguments are 'r'-red 'b'-blue 'g'-green
+        //set the background as a gradient
         set_background(main_background_color,background_c1,background_c2);
 
         // Intialize the shooter
@@ -263,7 +262,7 @@ public:
         // Main game loop
         while (true)
         {
-            beginFrame();
+            beginFrame();   //to remove any lag
             //update the timer
             //one sec passes after 30 repetations based on step time=0.02. However, some time is taken for computations too.
             //25 repetations has been arrived by trial and error and is not accurate.

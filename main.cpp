@@ -8,7 +8,7 @@
 //(80,130,blue)+(60,60,32)
 //(red,67,54)+(29,201,153)
 //(29,green,153)+(56,36,36)
-const struct color_combo color1={(unsigned int)COLOR(150,150,175),'b',0,0},color2={(unsigned int)COLOR(55,126,176),'r',0,0},color3={(unsigned int)COLOR(122,103,129),'g',0,0},color4={(unsigned int)COLOR(60,60,32),'b',80,130},color5={(unsigned int)COLOR(29,201,153),'r',47,34},color6={(unsigned int)COLOR(56,36,36),'g',29,153};
+const struct color_combo color1={(unsigned int)COLOR(150,150,175),'b',0,0},color2={(unsigned int)COLOR(55,126,176),'r',0,0},color4={(unsigned int)COLOR(60,60,32),'b',80,130};
 
 
 int main(){

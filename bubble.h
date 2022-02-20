@@ -4,11 +4,11 @@
 const int BUBBLE_START_X = 250;
 const int BUBBLE_START_Y = 75;
 const int BUBBLE_DEFAULT_RADIUS = 10;
-const int BUBBLE_RADIUS_THRESHOLD = 10;
+const int BUBBLE_RADIUS_THRESHOLD = 10; //if radius greater than threshold, split the bubbles
 const int BUBBLE_DEFAULT_VX = 100;
 const int BUBBLE_DEFAULT_VY = 0;
-const Color BUBBLE_DEFAULT_COLOR=COLOR(29,201,153);
-const int BUBBLE_DEFAULT_NO=2;
+const Color BUBBLE_DEFAULT_COLOR=COLOR(29,201,153);     //default colour of bubbles, not required in current game implementation
+const int BUBBLE_DEFAULT_NO=2;  //default number of bubbles initially
 
 const double BUBBLE_DEFAULT_AY = 10; // gravity
 
@@ -21,7 +21,7 @@ private:
     Color color;    // color of the bubble
 
 public:
-    bool in_collision;
+    bool in_collision;  //true if the bubble is currently in collision with shooter, else false
     Bubble(double cx, double cy, int r, double vx_=BUBBLE_DEFAULT_VX, double vy_=BUBBLE_DEFAULT_VY, Color color_=BUBBLE_DEFAULT_COLOR,double ay_=BUBBLE_DEFAULT_AY)
     {
         // Bubble constructor
