@@ -6,7 +6,7 @@
 
 
 /* Simulation Vars */
-const double STEP_TIME = 0.01;
+const double STEP_TIME = 0.02;
 
 /* Game Vars */
 const int PLAY_Y_HEIGHT = 450;
@@ -268,7 +268,7 @@ public:
             //one sec passes after 30 repetations based on step time=0.02. However, some time is taken for computations too.
             //25 repetations has been arrived by trial and error and is not accurate.
             temp_timer_var++;
-            if(temp_timer_var==50){
+            if(temp_timer_var==23){
                 temp_timer_var=0;
                 shooter.time--;
                 timer_countdown.reset((LEFT_MARGIN+textWidth("TIME:")), TOP_MARGIN, shooter.time);
@@ -307,7 +307,7 @@ public:
             check_for_collision_2(shooter,bubbles,lives_left);
 
             
-
+            endFrame();
             //check whether game is over
             if((shooter.time==0)    ||  (shooter.lives_left==0))
             {
@@ -326,7 +326,7 @@ public:
                 wait(2);
                 return 1;
             }
-            endFrame();
+            
 
             wait(STEP_TIME);
         }
