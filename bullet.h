@@ -10,7 +10,7 @@ private:
     double vy; // velocity in y direction
 
 public:
-    Bullet(double center_x, double center_y, double width=10, double height=10, double vy_=200, Color color=BULLET_DEFAULT_COLOR) {
+    Bullet(double center_x, double center_y, double width=10, double height=10, double vy_=400, Color color=BULLET_DEFAULT_COLOR) {
         // Bullet constructor
         rect = Rectangle(center_x, center_y, width, height);
         rect.setColor(color);

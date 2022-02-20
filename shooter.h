@@ -4,7 +4,7 @@
 /* Shooter Vars */
 const int SHOOTER_START_X = 250;
 const int SHOOTER_START_Y = 425;
-const int SHOOTER_VX = 400;
+const int SHOOTER_VX = 800;
 const int INITIAL_HEALTH=3;
 const int INITIAL_TIME=30;
 const int INITIAL_SCORE=0;
