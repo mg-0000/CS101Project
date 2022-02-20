@@ -10,7 +10,7 @@ const int BUBBLE_DEFAULT_VY = 0;
 const Color BUBBLE_DEFAULT_COLOR=COLOR(29,201,153);
 const int BUBBLE_DEFAULT_NO=2;
 
-const double BUBBLE_DEFAULT_AY = 20; // gravity
+const double BUBBLE_DEFAULT_AY = 10; // gravity
 
 class Bubble
 {
