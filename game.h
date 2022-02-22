@@ -148,6 +148,12 @@ void check_for_collision_2(Shooter &shooter, vector<Bubble> &bubbles, Text &live
                     shooter.lives_left--;
                     lives.reset((WINDOW_X-textWidth("   ")),TOP_MARGIN,shooter.lives_left);
                     shooter.set_color(COLOR("black"));
+                    //if there are no more lives left, return. This prevents the code for checking for
+                    //collision of shooter with any more bubbles. 
+                    //This is required if the shooter simultaneously collides with two or more bubbles with only one life left
+                    if(shooter.lives_left==0){      
+                        return;
+                    }
                 }
             }
             else
